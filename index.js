@@ -17,9 +17,9 @@ sequelize.authenticate()
 
 
 app.get('/', (req, res) => {
-    res.send('Hello sss!');
+    res.json({ message: 'Welcome to sequelize!' });
 });
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(3026, () => {
+    console.log('Server is running on port 3026');
 });
