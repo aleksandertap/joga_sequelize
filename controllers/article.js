@@ -1,32 +1,43 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+const Sequelize = require("sequelize");
+const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
     host: process.env.DB_HOST,
-    dialect: process.env.DB_DRIVER
-});
+    dialect: process.env.DB_DRIVER,
+  }
+);
 
-const models = require('../models');
+const models = require("../models");
 
 const getAllArticles = async (req, res) => {
-    try {
-        const articles = await models.Article.findAll();
-        res.status(200).json({articles});
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+  try {
+    const articles = await models.Article.findAll();
+    res.status(200).json({ articles });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 const getArticleBySlug = async (req, res) => {
-    try {
-        const article = await models.Article.findOne({ where: { slug: req.params.slug }, include: [{model:models.Author}] });
-        res.status(200).json({article});
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+  try {
+    const article = await models.Article.findOne({
+      where: { slug: req.params.slug },
+      include: [
+        { model: models.Author },
+        { model: models.Tags, through: { model: models.ArticleTags } },
+      ],
+    });
+    res.status(200).json({ article });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 };
 
 module.exports = {
-    getAllArticles,
-    getArticleBySlug
+  getAllArticles,
+  getArticleBySlug,
 };
