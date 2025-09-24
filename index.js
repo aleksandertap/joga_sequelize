@@ -21,7 +21,8 @@ sequelize.authenticate()
     });
 
 const articleRouter = require('./routes/article');
-app.get('/',articleRouter);
+app.use('/',articleRouter);
+app.use('/article',articleRouter);
 
 
 app.listen(3026, () => {

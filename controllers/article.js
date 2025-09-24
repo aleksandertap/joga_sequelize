@@ -18,6 +18,17 @@ const getAllArticles = async (req, res) => {
     }
 };
 
+const getArticleBySlug = async (req, res) => {
+    try {
+        const article = await Article.findOne({ where: { slug: req.params.slug } })
+        res.status(200).json({article});
+        console.log(article);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 module.exports = {
-    getAllArticles
+    getAllArticles,
+    getArticleBySlug
 };
