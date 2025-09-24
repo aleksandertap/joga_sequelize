@@ -6,11 +6,13 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialect: process.env.DB_DRIVER
 });
 
+const models = require('../models');
+
 const Article = require('../models/article')(sequelize, Sequelize.DataTypes);
 
 const getAllArticles = async (req, res) => {
     try {
-        const articles = await Article.findAll();
+        const articles = await models.Article.findAll();
         res.status(200).json({articles});
         console.log(articles);
     } catch (error) {
@@ -20,7 +22,7 @@ const getAllArticles = async (req, res) => {
 
 const getArticleBySlug = async (req, res) => {
     try {
-        const article = await Article.findOne({ where: { slug: req.params.slug } })
+        const article = await models.Article.findOne({ where: { slug: req.params.slug }, include: [{model:models.Author}] });
         res.status(200).json({article});
         console.log(article);
     } catch (error) {

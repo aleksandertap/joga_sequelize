@@ -9,11 +9,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Author, {
+        foreignKey: { name: "AuthorId", field: "author_id", },
+      });
     }
   }
   Article.init(
     {
-      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       name: { type: DataTypes.STRING, allowNull: false },
       slug: { type: DataTypes.STRING, allowNull: false, unique: true },
       image: { type: DataTypes.STRING, allowNull: false },
