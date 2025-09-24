@@ -31,6 +31,24 @@ const createArticle = async (req, res) => {
     });
 };
 
+const updateArticle = async (req, res) => {
+  // get article by id
+  const article = await models.Article.findOne({
+    where: { id: req.params.id },
+  });
+    if (!article) {
+        return res.status(404).json({ message: "Article not found" });
+    } 
+    const articleUpdate = await article.update(req.body)
+    .then((article) => {
+      return res.status(200).json({ message: "article updated" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: err.message });
+    });
+}
+
 module.exports = {
   createArticle,
+  updateArticle
 };
