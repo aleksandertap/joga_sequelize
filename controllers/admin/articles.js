@@ -48,7 +48,25 @@ const updateArticle = async (req, res) => {
     });
 }
 
+const deleteArticle = async (req, res) => {
+  const article = await models.Article.findOne({
+    where: { id: req.params.id },
+  });
+  if (!article) {
+    return res.status(404).json({ message: "Article not found" });
+  }
+  await article
+    .destroy()
+    .then(() => {
+      return res.status(200).json({ message: "article deleted" });
+    })
+    .catch((err) => {
+      return res.status(500).json({ error: err.message });
+    });
+}
+
 module.exports = {
   createArticle,
-  updateArticle
+  updateArticle,
+  deleteArticle
 };

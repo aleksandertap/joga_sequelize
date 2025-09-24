@@ -27,6 +27,7 @@ app.use('/article',articleRouter);
 app.use('/author',authorRouter);
 app.use('/admin/article',articleRouter);
 app.use('/edit',articleRouter);
+app.use('/delete',articleRouter);
 
 
 app.listen(3026, () => {
