@@ -8,13 +8,10 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 
 const models = require('../models');
 
-const Article = require('../models/article')(sequelize, Sequelize.DataTypes);
-
 const getAllArticles = async (req, res) => {
     try {
         const articles = await models.Article.findAll();
         res.status(200).json({articles});
-        console.log(articles);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -24,7 +21,6 @@ const getArticleBySlug = async (req, res) => {
     try {
         const article = await models.Article.findOne({ where: { slug: req.params.slug }, include: [{model:models.Author}] });
         res.status(200).json({article});
-        console.log(article);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
