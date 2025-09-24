@@ -20,10 +20,9 @@ sequelize.authenticate()
         console.error('Unable to connect to the database:', err);
     });
 
+const articleRouter = require('./routes/article');
+app.get('/',articleRouter);
 
-app.get('/', (req, res) => {
-    res.json({ message: 'Welcome to sequelize!' });
-});
 
 app.listen(3026, () => {
     console.log('Server is running on port 3026');
